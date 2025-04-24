@@ -12,7 +12,7 @@ const Help = () => (
       icon="people-outline"
       tintColor={colors.primary}
       onPress={() => {
-        alert('Help touched');
+        alert('Contact us at');
       }}
       showForwardIcon={false}
       style={{ marginTop: 20 }}
@@ -23,8 +23,8 @@ const Help = () => (
       tintColor={colors.pink}
       onPress={() => {
         Alert.alert(
-          'React Native Chat App',
-          'Developed by Cemil Tan',
+          'Dogpark App',
+          'Developed by Saas innova',
           [
             {
               text: 'Ok',

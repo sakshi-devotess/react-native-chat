@@ -1,7 +1,5 @@
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
-import { doc, setDoc } from 'firebase/firestore';
-import { updateProfile, createUserWithEmailAndPassword } from 'firebase/auth';
 import {
   Text,
   View,
@@ -15,29 +13,31 @@ import {
 } from 'react-native';
 
 import { colors } from '../config/constants';
-import backImage from '../assets/background.png';
-import { auth, database } from '../config/firebase';
+import backImage from '../assets/signupBg.jpg';
+import authApiInstance from '../services/auth/auth';
 
 export default function SignUp({ navigation }) {
   const [email, setEmail] = useState('');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
-  const onHandleSignup = () => {
+  const onHandleSignup = async () => {
     if (email !== '' && password !== '') {
-      createUserWithEmailAndPassword(auth, email, password)
-        .then((cred) => {
-          updateProfile(cred.user, { displayName: username }).then(() => {
-            setDoc(doc(database, 'users', cred.user.email), {
-              id: cred.user.uid,
-              email: cred.user.email,
-              name: cred.user.displayName,
-              about: 'Available',
-            });
-          });
-          console.log(`Signup success: ${cred.user.email}`);
+      authApiInstance
+        .signUp({
+          email,
+          password,
+          username,
         })
-        .catch((err) => Alert.alert('Signup error', err.message));
+        .then((res) => {
+          console.log('res :>> ', res);
+          Alert.alert('Success', 'Account created successfully!');
+          navigation.navigate('Login');
+        })
+        .catch((err) => {
+          console.log('err :>> ', err);
+          Alert.alert('Error', err.message);
+        });
     }
   };
 
@@ -131,9 +131,10 @@ const styles = StyleSheet.create({
   title: {
     alignSelf: 'center',
     color: 'black',
-    fontSize: 36,
+    fontSize: 34,
     fontWeight: 'bold',
     paddingTop: 48,
+    paddingBottom: 20,
   },
   whiteSheet: {
     backgroundColor: '#fff',

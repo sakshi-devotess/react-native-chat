@@ -1,20 +1,19 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { View, Alert } from 'react-native';
-import { signOut, deleteUser } from 'firebase/auth';
-import { doc, deleteDoc } from 'firebase/firestore';
-
+import * as SecureStore from 'expo-secure-store';
 import Cell from '../components/Cell';
 import { colors } from '../config/constants';
-import { auth, database } from '../config/firebase';
+import { AuthenticatedUserContext } from '../contexts/AuthenticatedUserContext';
 
 const Account = () => {
+  const { setUser } = useContext(AuthenticatedUserContext);
   const onSignOut = () => {
-    signOut(auth).catch((error) => console.log('Error logging out: ', error));
+    SecureStore.deleteItemAsync('userData');
+    setUser(null);
   };
 
   const deleteAccount = () => {
-    deleteUser(auth?.currentUser).catch((error) => console.log('Error deleting: ', error));
-    deleteDoc(doc(database, 'users', auth?.currentUser.email));
+    Alert.alert('Account Deleted Touched');
   };
 
   return (
@@ -24,7 +23,7 @@ const Account = () => {
         icon="close-circle-outline"
         tintColor={colors.primary}
         onPress={() => {
-          alert('Blocked users touched');
+          Alert.alert('Blocked users touched');
         }}
         style={{ marginTop: 20 }}
       />

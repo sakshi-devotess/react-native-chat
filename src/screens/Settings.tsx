@@ -1,23 +1,20 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
-import { Ionicons } from '@expo/vector-icons';
-import { Text, View, Linking, StyleSheet, TouchableOpacity } from 'react-native';
-
+import { Text, View, Linking, StyleSheet } from 'react-native';
 import Cell from '../components/Cell';
-import { auth } from '../config/firebase';
 import { colors } from '../config/constants';
 import ContactRow from '../components/ContactRow';
+import { AuthenticatedUserContext } from '../contexts/AuthenticatedUserContext';
 
 const Settings = ({ navigation }) => {
   async function openGithub(url) {
     await Linking.openURL(url);
   }
-
+  const { user } = useContext(AuthenticatedUserContext);
   return (
     <View>
       <ContactRow
-        name={auth?.currentUser?.displayName ?? 'No name'}
-        subtitle={auth?.currentUser?.email}
+        name={user?.username ?? 'No name'}
         style={styles.contactRow}
         onPress={() => {
           navigation.navigate('Profile');
@@ -54,16 +51,6 @@ const Settings = ({ navigation }) => {
         }}
         showForwardIcon={false}
       />
-
-      <TouchableOpacity
-        style={styles.githubLink}
-        onPress={() => openGithub('https://github.com/Ctere1/react-native-chat')}
-      >
-        <View style={styles.githubContainer}>
-          <Ionicons name="logo-github" size={12} style={{ color: colors.teal }} />
-          <Text style={{ fontSize: 12, fontWeight: '400', marginLeft: 4 }}>App&apos;s Github</Text>
-        </View>
-      </TouchableOpacity>
     </View>
   );
 };

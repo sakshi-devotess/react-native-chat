@@ -7,7 +7,6 @@ import { colors } from '../config/constants';
 
 const ContactRow = ({
   name,
-  subtitle,
   onPress,
   style,
   onLongPress,
@@ -28,7 +27,6 @@ const ContactRow = ({
 
     <View style={styles.textsContainer}>
       <Text style={styles.name}>{name}</Text>
-      <Text style={styles.subtitle}>{subtitle}</Text>
     </View>
 
     <View style={styles.rightContainer}>
@@ -126,7 +124,6 @@ const styles = StyleSheet.create({
 
 ContactRow.propTypes = {
   name: PropTypes.string.isRequired,
-  subtitle: PropTypes.string.isRequired,
   onPress: PropTypes.func.isRequired,
   style: PropTypes.object,
   onLongPress: PropTypes.func,

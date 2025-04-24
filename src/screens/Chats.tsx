@@ -185,7 +185,6 @@ const Chats = ({ setUnreadCount }) => {
     );
   }, [selectedItems, chats, deSelectItems]); // Memoize based on these dependencies
 
-
   const updateNavigationOptions = useCallback(() => {
     if (selectedItems.length > 0) {
       navigation.setOptions({

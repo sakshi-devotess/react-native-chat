@@ -9,7 +9,7 @@ export default {
     orientation: 'portrait',
     icon: 'src/assets/icon.png',
     userInterfaceStyle: 'light',
-    entryPoint: './src/App.js',
+    entryPoint: './src/App.tsx',
     splash: {
       image: 'src/assets/splash.png',
       resizeMode: 'contain',
@@ -40,6 +40,10 @@ export default {
       measurementId: process.env.EXPO_PUBLIC_MEASUREMENT_ID,
       eas: {
         projectId: process.env.EXPO_PUBLIC_EAS_PROJECT_ID,
+      },
+      url: {
+        api: process.env.REACT_APP_PUBLIC_URL,
+        graphql: process.env.REACT_APP_GRAPHQL_URL,
       },
     },
   },

@@ -1,18 +1,15 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Ionicons } from '@expo/vector-icons';
 import { Text, View, Alert, StyleSheet, SafeAreaView, TouchableOpacity } from 'react-native';
 
 import Cell from '../components/Cell';
-import { auth } from '../config/firebase';
 import { colors } from '../config/constants';
+import { AuthenticatedUserContext } from '../contexts/AuthenticatedUserContext';
 
 const Profile = () => {
+  const { user } = useContext(AuthenticatedUserContext);
   const handleChangeName = () => {
     Alert.alert('Change Name', 'This feature is coming soon.');
-  };
-
-  const handleDisplayEmail = () => {
-    Alert.alert('Display Email', `Your email is: ${auth?.currentUser?.email}`);
   };
 
   const handleChangeProfilePicture = () => {
@@ -23,12 +20,10 @@ const Profile = () => {
     Alert.alert('Show Profile Picture', 'This feature is coming soon.');
   };
 
-  const initials = auth?.currentUser?.displayName
-    ? auth.currentUser.displayName
-        .split(' ')
-        .map((name) => name[0])
-        .join('')
-    : auth?.currentUser?.email?.charAt(0).toUpperCase();
+  const initials = user?.username
+    .split(' ')
+    .map((name) => name[0])
+    .join('');
 
   return (
     <SafeAreaView style={styles.container}>
@@ -45,32 +40,22 @@ const Profile = () => {
       {/* User Info Cells */}
       <View style={styles.infoContainer}>
         <Cell
-          title="Name"
+          title="First Name"
           icon="person-outline"
           iconColor="black"
-          subtitle={auth?.currentUser?.displayName || 'No name set'}
+          subtitle={user?.first_name || 'No name set'}
           secondIcon="pencil-outline"
           onPress={handleChangeName}
           style={styles.cell}
         />
 
         <Cell
-          title="Email"
-          subtitle={auth?.currentUser?.email}
-          icon="mail-outline"
+          title="Last Name"
+          icon="person-outline"
           iconColor="black"
+          subtitle={user?.last_name || 'No name set'}
           secondIcon="pencil-outline"
-          onPress={handleDisplayEmail}
-          style={styles.cell}
-        />
-
-        <Cell
-          title="About"
-          subtitle="Available"
-          icon="information-circle-outline"
-          iconColor="black"
-          secondIcon="pencil-outline"
-          onPress={() => Alert.alert('About', 'This feature is coming soon.')}
+          onPress={handleChangeName}
           style={styles.cell}
         />
       </View>
